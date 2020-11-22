@@ -3,14 +3,36 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "watch": {
+    "test": "node-sass sass/style.scss gutenberg-block-style.css --output-style expanded && postcss -r style.css"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node-sass sass/style.scss gutenberg-block-style.css --output-style expanded && postcss -r style.css",
+    "build": "wp-scripts build",
+    "watch": "npm-watch",
+    "start": "wp-scripts start",
+    "node-sass": "node-sass --output-style compressed -o dist/css src/scss",
     "build:scripts": "wp-scripts build",
-    "start-build": "wp-scripts start"
+    "start-build": "wp-scripts start",
+    "build:gutenburg-project": "node-sass sass/style.scss gutenberg-block-style.css --output-style expanded && postcss -r style.css"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-  "@wordpress/scripts": "12.5.0"
+    "@wordpress/scripts": "^12.5.0",
+    "css-loader": "^5.0.1",
+    "ignore-emit-webpack-plugin": "^2.0.5",
+    "mini-css-extract-plugin": "^1.3.1",
+    "node-sass": "^5.0.0",
+    "nodemon": "^2.0.6",
+    "path": "^0.12.7",
+    "postcss": "^8.1.9",
+    "postcss-cli": "^8.3.0",
+    "postcss-loader": "^4.1.0",
+    "postcss-preset-env": "^6.7.0",
+    "sass-loader": "^10.1.0"
+  },
+  "dependencies": {
+    "npm-watch": "^0.7.0"
   }
 }

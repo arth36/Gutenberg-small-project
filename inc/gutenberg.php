@@ -52,8 +52,11 @@ function gutenberg_project_blocks(){
         array( 'wp-blocks', 'wp-editor', 'wp-components' ) 
     );
 
+    wp_register_style('custom-cta-css', get_template_directory_uri() . '/gutenberg-block-style.css', array());
+
     register_block_type( 'gutenberg-project/custom-cta', array(
-        'editor_script' =>  'custom-cta-js'
+        'editor_script' =>  'custom-cta-js',
+        'style' =>  'custom-cta-css',
     ) );
 }
 add_action( 'init', 'gutenberg_project_blocks' );

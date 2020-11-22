@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+    <head>
+        <?php wp_head(); ?>
+        <?php wp_enqueue_media(); ?>
+    </head>
+    <body>
 <?php
 
 $args = array(
@@ -15,3 +22,6 @@ if($post_query -> have_posts()):
         <?php
     endwhile;
 endif;
+?>
+</body>
+</html>

@@ -2,9 +2,12 @@ const { registerBlockType } = wp.blocks;
 const { 
     RichText, 
     InspectorControls,
-    ColorPalette
+    ColorPalette,
+    MediaUpload,
+    BlockControls,
+    AlignmentToolbar,
 } = wp.editor;
-const { PanelBody } = wp.components;
+const { PanelBody, IconButton } = wp.components;
 
 registerBlockType( 'gutenberg-project/custom-cta', {
 
@@ -31,7 +34,19 @@ registerBlockType( 'gutenberg-project/custom-cta', {
             type: 'string',
             source: 'html',
             selector: 'p',
-        }
+        },
+        bodyColor: {
+            type: 'string',
+            default: 'black',
+        },
+        backgroundImage: {
+            type: 'string',
+            default: null,
+        },
+        alignment: {
+            type: 'string',
+            default: 'none',
+        },
     },
 
     // built-in functions
@@ -43,6 +58,8 @@ registerBlockType( 'gutenberg-project/custom-cta', {
             titleColor,
             bodyColor,
             body,
+            backgroundImage,
+            alignment,
         } = attributes;
 
         // custom functions
@@ -58,8 +75,16 @@ registerBlockType( 'gutenberg-project/custom-cta', {
             setAttributes( { titleColor: newTitleColor } );
         }
 
-        function onTitleBodyChange(newBodyColor){
+        function onBodyColorChange(newBodyColor){
             setAttributes( { bodyColor: newBodyColor } );
+        }
+
+        function onSelectImage(newImage){
+            setAttributes( { backgroundImage: newImage.sizes.full.url } );
+        }
+
+        function onChangeAlignment(newAlignment){
+            setAttributes( { alignment: newAlignment === undefined ? 'none' : newAlignment } )
         }
 
         return([
@@ -70,17 +95,48 @@ registerBlockType( 'gutenberg-project/custom-cta', {
                                     onChange = { onTitleColorChange } />
                     <p><strong>Select a Body Color:</strong></p>
                     <ColorPalette   value = {bodyColor}
-                                    onChange = { onTitleBodyChange } />
+                                    onChange = { onBodyColorChange } />
+                </PanelBody>
+
+                <PanelBody title={ 'Backgroyund Image Settings' }>
+                    <p><strong>Select a Background Image:</strong></p>
+                    <MediaUpload 
+                        onSelect = { onSelectImage }
+                        type = "image"
+                        value = { backgroundImage }
+                        render = { ( { open } ) => (
+                            <IconButton 
+                                onClick = { open }
+                                icon = "upload"
+                                className = "editor-media-placeholder__button is-button is-default is-large"
+                            >
+                                Background Image
+                            </IconButton>
+                         ) }
+                    />
                 </PanelBody>
             </InspectorControls>,
             
-            <div class="cta-container">
+            <div class="cta-container" style={ {
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+            } }>
+                {
+                    <BlockControls>
+                        <AlignmentToolbar   value = { alignment } 
+                                            onChange = { onChangeAlignment }
+                        />
+                    </BlockControls>
+                }
                 <RichText   key = "editable"
                             tagName = "h2"
+                            className = "cta-title"
                             placeholder = "Your CTA Title"
                             value = { title }
                             onChange = { onChangeTitle }
-                            style = { { color:titleColor } }
+                            style = { { color:titleColor, textAlign: alignment } }
                 />
 
                 <RichText   key = "editable"
@@ -101,12 +157,19 @@ registerBlockType( 'gutenberg-project/custom-cta', {
             title,
             titleColor,
             bodyColor,
-            body,   
+            body,
+            backgroundImage,
+            alignment,
         } = attributes;
 
         return (
-            <div class="cta-container">
-                <h2 style={ { color: titleColor } }>{ title }</h2>
+            <div className="cta-container" style={ {
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+            } }>
+                <h2 className="cta-title" style={ { color: titleColor, textAlign: alignment } }>{ title }</h2>
                 <RichText.Content   tagName = "p"
                                     value = { body }
                                     style = { { color: bodyColor } } />
