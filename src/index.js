@@ -1,3 +1,5 @@
+import '../block-cover/block-cover.js'
+
 const { registerBlockType } = wp.blocks;
 const { 
     RichText, 

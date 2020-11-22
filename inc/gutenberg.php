@@ -58,5 +58,12 @@ function gutenberg_project_blocks(){
         'editor_script' =>  'custom-cta-js',
         'style' =>  'custom-cta-css',
     ) );
+
+    register_block_type( 'gutenberg-project/cover', array(
+        'editor_script' =>  'custom-cta-js',
+        'style' =>  'custom-cta-css',
+    ) );
+
+
 }
 add_action( 'init', 'gutenberg_project_blocks' );
