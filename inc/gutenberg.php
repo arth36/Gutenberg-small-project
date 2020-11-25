@@ -45,11 +45,9 @@ function gutenberg_project_default_colors(){
     );
 }
 
-add_action( 'init', 'gutenberg_project_default_colors' );
-
 function gutenberg_project_blocks(){
     wp_register_script( 'custom-cta-js', get_template_directory_uri() . '/build/index.js', 
-        array( 'wp-blocks', 'wp-editor', 'wp-components' ) 
+        array( 'wp-blocks', 'wp-editor', 'wp-components', 'wp-api-fetch', ) 
     );
 
     wp_register_style('custom-cta-css', get_template_directory_uri() . '/gutenberg-block-style.css', array());
@@ -64,6 +62,88 @@ function gutenberg_project_blocks(){
         'style' =>  'custom-cta-css',
     ) );
 
+    register_block_type( 'gutenberg-project/portfolio', array(
+        'editor_script' =>  'custom-cta-js',
+        'style' =>  'custom-cta-css',
+        'render_callback' => 'render_portfolio_block',
+    ) );
 
 }
 add_action( 'init', 'gutenberg_project_blocks' );
+
+function render_portfolio_block( $attributes ){
+
+    ?>
+
+<div class="portfolio_section">
+<div class="container-wrapper">
+    <div class="portfolio_upper">
+        <div class="portfolio_upper_left">
+            <p class="portfolio_upper_title"><?php echo $attributes['portfolioBlockTitle'] ?></p>
+        </div>
+    </div>
+    <hr class="other_hr"/>
+    <?php
+
+    $paged = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+
+        $args = array(
+            'post_type'     => 'portfolio',
+            'post_status'   => 'publish',
+            'order'       => 'asc',
+            'posts_per_page' => $attributes['postPerPage'],
+            'paged' => $paged, 
+        );
+        $posts = new WP_QUERY($args);
+        $count = count(get_posts($args));
+        if ( $posts -> have_posts() ) :
+    ?>
+    <div class="vertical">
+    <?php
+            for($i=0;$i<$count/3;$i++){
+            
+    ?>
+        <div class="horizontal">
+            <?php
+                for($j=0;$j<3;$j++){
+                    $posts -> the_post();
+                    if(has_post_thumbnail()):
+            ?>
+                
+                    <img class="port_img" src="<?php echo the_post_thumbnail_url(); ?>" />  
+                
+            <?php
+            
+            endif;
+        }
+            ?>
+        </div>
+    <?php        
+        }
+        ?>
+        <div class="pagination_bar">
+        <?php
+        echo paginate_links( array(
+            'total' => $posts->max_num_pages
+        ) );
+    ?>
+        </div>
+    
+    </div>
+    <?php
+        else:
+    ?>
+            <div>
+                <h1>No Portfolio Found.</h1>
+            </div>
+    <?php
+        endif;
+    ?>
+</div>
+</div>
+
+    <?php
+    
+}
+
+add_action( 'init', 'gutenberg_project_default_colors' );

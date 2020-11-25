@@ -1,4 +1,5 @@
 import '../block-cover/block-cover.js'
+import '../block-portfolio/block-portfolio.js'
 
 const { registerBlockType } = wp.blocks;
 const { 

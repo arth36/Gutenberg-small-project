@@ -3,6 +3,137 @@
 }
 
 .banner{
-    height: 544px;
+    position: relative;
+    background-size: cover;
+    background-position: 50%;
+    min-height: 430px;
+    height: 100%;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}   
+
+.banner-content{
+    padding-top: 230px;    
+    text-align: center;
+}
+
+.banner-container{
+    width: 1160px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.portfolio_section{
+    background-color: #f6f6f6;
+}
+
+.portfolio_upper{
+    margin-top: 30px;
+    display: flex;
+}
+
+.portfolio_upper_left{
+    float: left;
+    width: 94%;;
+}
+
+.portfolio_upper_right{
+    float: right;
+    text-align: right;
+    margin-top:-15px;
+}
+
+.view_all_btn{
+    background-color: #222222;
+    color: #ffffff;
+    size: 16px;
+    padding: 10px;
+    border: 1px solid #62585f;
+    border-radius: 3px;
+    font-family: 'Open Sans';
+}
+
+.portfolio_upper_title{
+    font-size: 45px;
+    color: #62585f;
+    font-family: 'Open Sans';
+}
+
+hr{
+    margin-top:15px;
+    background-color: #62585f;
+    border: 1px solid #62585f;
+}
+
+.other_hr{
+    margin-top:30px;
+    background-color: #62585f;
+    border: 1px solid #62585f;
+}
+
+.vertical{
+    display: block;
+}
+
+.horizontal{
+    display: flex;
+    margin-top:15px;
+}
+
+.horizontal img{
+    object-fit: cover;
+    object-position: center;
+    -moz-transition: 0.3s transform ease-out;
+    transition: 0.3s transform ease-out; 
+}
+
+.port_img{
+    width: 377px;
+    height: 210px;
+    border-radius: 10px;
+}
+
+.port_img:not(:nth-of-type(1)){
+    margin-left: 15px;
+}
+
+.port_img:hover{
+    transform: scale(1.05);
+}
+
+.port_img.port_page:hover{
+    background: rgba(0, 0, 0, 0.8);
+    opacity: 1;
+}
+
+.pagination_bar{
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    word-spacing: 15px;
+}
+
+.page-numbers{
+    font-family: 'Open Sans';
+    font-size: 16px;
+    color: #222222;
+    font-weight: bold;
+}
+
+.page-numbers.current{
+    border-radius: 3px;
+    padding: 2px 8px 2px 8px;
+    color:#ffffff;
+    background-color: #ef4634;
+}
+
+.container-wrapper{
+    width: 1160px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
 }

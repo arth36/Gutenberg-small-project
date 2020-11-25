@@ -1,5 +1,3 @@
-import './style.scss'
-
 const { registerBlockType } = wp.blocks;
 const { 
     RichText, 
@@ -27,7 +25,7 @@ registerBlockType( 'gutenberg-project/cover', {
         coverTitle: {
             type: 'string',
             source: 'html',
-            selector: 'h1',
+            selector: 'p',
         },
     },
 
@@ -76,16 +74,16 @@ registerBlockType( 'gutenberg-project/cover', {
             </InspectorControls>,
 
             <div class="banner" style = { { background: `url("${ coverImage }")` } }>
+                <div class="banner-container">
                 <RichText   key = "editable"
-                            tagName = "h1"
+                            tagName = "p"
                             className = "cover-title"
                             placeholder = "Add Cover Title"
                             value = { coverTitle }
                             onChange = { onChangeCoverTitle }
                             
                 />
-
-                
+                </div>
             </div>
         ]);
     },
@@ -101,7 +99,10 @@ registerBlockType( 'gutenberg-project/cover', {
 
         return (
             <div class="banner" style = { { background: `url("${ coverImage }")` } }>
-                <h1 className="cover-title">{ coverTitle }</h1>
+                <div class="banner-container">
+                    <img />
+                    <h1 className="cover-title">{ coverTitle }</h1>
+                </div>
             </div>
         );
     },
