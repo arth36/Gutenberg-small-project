@@ -100,18 +100,32 @@ function render_portfolio_block( $attributes ){
     ?>
     <div class="vertical">
     <?php
+    $k=0;
             for($i=0;$i<$count/3;$i++){
             
     ?>
         <div class="horizontal">
             <?php
                 for($j=0;$j<3;$j++){
+                    $k++;
                     $posts -> the_post();
                     if(has_post_thumbnail()):
             ?>
-                
-                    <img class="port_img" src="<?php echo the_post_thumbnail_url(); ?>" />  
-                
+                <div class="imgcontainer">
+                    <a href="#img<?php echo $k; ?>"><img class="port_img" src="<?php echo the_post_thumbnail_url(); ?>" /></a>
+                </div>
+
+                <div class="lightbox" id="img<?php echo $k; ?>">
+                    <a class="close_out" href="#"></a>
+                    <div class="box">
+	                    <a class="close" href="#">X</a>
+                        <p class="title"></p>
+                        <div class="content">
+                        	<img class="lightbox_img" src="<?php echo the_post_thumbnail_url(); ?>"/> 
+                        </div>
+                        <p class="title"><?php echo the_title(); ?></p>
+                    </div>
+                </div>
             <?php
             
             endif;
