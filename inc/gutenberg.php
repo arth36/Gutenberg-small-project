@@ -47,7 +47,7 @@ function gutenberg_project_default_colors(){
 
 function gutenberg_project_blocks(){
     wp_register_script( 'custom-cta-js', get_template_directory_uri() . '/build/index.js', 
-        array( 'wp-blocks', 'wp-editor', 'wp-components', 'wp-api-fetch', ) 
+        array( 'wp-blocks', 'wp-editor', 'wp-components', 'wp-api-fetch', 'wp-compose', ) 
     );
 
     wp_register_style('custom-cta-css', get_template_directory_uri() . '/gutenberg-block-style.css', array());
@@ -72,7 +72,7 @@ function gutenberg_project_blocks(){
 add_action( 'init', 'gutenberg_project_blocks' );
 
 function render_portfolio_block( $attributes ){
-
+    ob_start();
     ?>
 
 <div class="portfolio_section">
@@ -94,7 +94,7 @@ function render_portfolio_block( $attributes ){
             'posts_per_page' => $attributes['postPerPage'],
             'paged' => $paged, 
         );
-        $posts = new WP_QUERY($args);
+        $posts = new WP_Query($args);
         $count = count(get_posts($args));
         if ( $posts -> have_posts() ) :
     ?>
@@ -143,7 +143,7 @@ function render_portfolio_block( $attributes ){
 </div>
 
     <?php
-    
+    return ob_get_clean();
 }
 
 add_action( 'init', 'gutenberg_project_default_colors' );

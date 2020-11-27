@@ -7,7 +7,8 @@ const {
     BlockControls,
     AlignmentToolbar,
 } = wp.editor;
-const { PanelBody, IconButton } = wp.components;
+const { PanelBody, IconButton, RangeControl } = wp.components;
+const { withState } = wp.compose;
 //apiFetch = wp.apiFetch;
 
 registerBlockType( 'gutenberg-project/portfolio', {
@@ -19,51 +20,98 @@ registerBlockType( 'gutenberg-project/portfolio', {
     // custom attributes
 
     attributes: {
+        portfolio: {
+            type: 'object',
+        },
         portfolioBlockTitle: {
             type: 'string',
         },
         postPerPage: {
-            type: 'string',
+            type: 'number',
         },
-        columns: {
-            type: 'string',
-        }
     },
 
     // built-in functions
 
     edit( props ) {
 
-        function onChangePortfolioBlockTitle(e){
+        if( ! props.attributes.portfolio ) {
+            wp.apiFetch({
+                url: 'http://localhost/wordpress/wp-json/wp/v2/portfolio/?per_page=100'
+            }).then( portfolio => {
+                props.setAttributes({
+                    portfolio: portfolio,
+                })
+            } )
+        }
+
+        if( ! props.attributes.portfolio ) {
+            return 'Loading...';
+        }
+
+        if( props.attributes.portfolio && props.attributes.portfolio.length === 0 ) {
+            return 'No portfolio found... please add some';
+        }
+
+        function onChangePortfolioBlockTitle(newPortfolioBlockTitle){
             props.setAttributes({
-                portfolioBlockTitle : e.target.value,
+                portfolioBlockTitle : newPortfolioBlockTitle,
             });
         }
 
-        function onChangeNumberOfPostPerPage(e){
+        function onChangeNumberOfPostPerPage(newNumberOfPostPerPage){
             props.setAttributes({
-                postPerPage : e.target.value,
+                postPerPage : newNumberOfPostPerPage,
             });
         }
 
-        function onChangeNumberOfColumns(e){
-            props.setAttributes({
-                columns : e.target.value,
-            });
-        }
+        return([
 
-        return(
+            <InspectorControls style={{ marginBottom : '40px' }}>
+                
+                <PanelBody title="Number of posts per page">
+
+                    <RangeControl 
+                    
+                        label={ 'Number of posts per page' }
+                        value={ props.attributes.postPerPage }
+                        onChange={ onChangeNumberOfPostPerPage }
+                        initialPosition={ 3 }
+                        min={ 3 }
+                        max={ 30 }
+                        step={ 3 }
+                    
+                    />  
+
+                </PanelBody>
+
+            </InspectorControls>,
+
             <div>
                 <label>Add Portfolio block Title. ( which will reflect at frontend. )</label>
                 <br/>
-                <input type="text" onBlur={ onChangePortfolioBlockTitle } value={ props.attributes.portfolioBlockTitle } required />
-                <br/>
-                <br/>
-                <label>number of post per page</label>
-                <br/>
-                <input type="text" onBlur={ onChangeNumberOfPostPerPage } value={ props.attributes.postPerPage } required />
+                <RichText   key = "editable"
+                            tagName = "p"
+                            placeholder = "Add Portfolio Title"
+                            value = { props.attributes.portfolioBlockTitle }
+                            onChange = { onChangePortfolioBlockTitle }                    
+                />
+
+                <div>
+                    
+                        {
+                            props.attributes.portfolio.map( portfolio => {
+                                return (
+                                    console.log(portfolio.featured_media)
+                                );
+                            } )
+                        }
+                    
+                </div>
+
             </div>
-        );
+
+        ]);
     },
 
     save(){
