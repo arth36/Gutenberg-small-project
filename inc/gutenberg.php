@@ -11,17 +11,17 @@ function gutenberg_project_default_colors(){
         'editor-color-palette', 
         array(
             array(
-                'name'  =>  'White',
+                'name'  =>  __('White','gutenberg_project'),
                 'slug'  =>  'white',
                 'color' =>  '#ffffff'
             ),
             array(
-                'name'  =>  'Black',
+                'name'  =>  __('Black','gutenberg_project'),
                 'slug'  =>  'black',
                 'color' =>  '#000000'
             ),
             array(
-                'name'  =>  'Pink',
+                'name'  =>  __('Pink','gutenberg_project'),
                 'slug'  =>  'pink',
                 'color' =>  '#ff4444'
             )
@@ -32,12 +32,12 @@ function gutenberg_project_default_colors(){
         'editor-font-sizes',
         array(
             array(
-                'name'  =>  'Normal',
+                'name'  =>  __('Normal','gutenberg_project'),
                 'slug'  =>  'normal',
                 'size'  =>  16
             ),
             array(
-                'name'  =>  'Large',
+                'name'  =>  __('Large','gutenberg_project'),
                 'slug'  =>  'large',
                 'size'  =>  24
             )
@@ -50,6 +50,14 @@ function gutenberg_project_blocks(){
         array( 'wp-blocks', 'wp-editor', 'wp-components', 'wp-api-fetch', 'wp-compose', ) 
     );
 
+    wp_register_script( 'custom-cover-js', get_template_directory_uri() . '/build/index.js', 
+        array( 'wp-blocks', 'wp-editor', 'wp-components', 'wp-api-fetch', 'wp-compose', ) 
+    );
+
+    wp_register_script( 'custom-portfolio-js', get_template_directory_uri() . '/build/index.js', 
+        array( 'wp-blocks', 'wp-editor', 'wp-components', 'wp-api-fetch', 'wp-compose', ) 
+    );
+
     wp_register_style('custom-cta-css', get_template_directory_uri() . '/gutenberg-block-style.css', array());
 
     register_block_type( 'gutenberg-project/custom-cta', array(
@@ -58,12 +66,12 @@ function gutenberg_project_blocks(){
     ) );
 
     register_block_type( 'gutenberg-project/cover', array(
-        'editor_script' =>  'custom-cta-js',
+        'editor_script' =>  'custom-cover-js',
         'style' =>  'custom-cta-css',
     ) );
 
     register_block_type( 'gutenberg-project/portfolio', array(
-        'editor_script' =>  'custom-cta-js',
+        'editor_script' =>  'custom-portfolio-js',
         'style' =>  'custom-cta-css',
         'render_callback' => 'render_portfolio_block',
     ) );
@@ -118,7 +126,7 @@ function render_portfolio_block( $attributes ){
                 <div class="lightbox" id="img<?php echo $k; ?>">
                     <a class="close_out" href="#"></a>
                     <div class="box">
-	                    <a class="close" href="#">X</a>
+	                    <a class="close" href="#"><?php echo __('X','gutenberg_project') ?></a>
                         <p class="title"></p>
                         <div class="content">
                         	<img class="lightbox_img" src="<?php echo the_post_thumbnail_url(); ?>"/> 
@@ -148,7 +156,7 @@ function render_portfolio_block( $attributes ){
         else:
     ?>
             <div>
-                <h1>No Portfolio Found.</h1>
+                <h1><?php echo __('No Portfolio Found.','gutenberg_project') ?></h1>
             </div>
     <?php
         endif;

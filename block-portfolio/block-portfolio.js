@@ -9,7 +9,6 @@ const {
 } = wp.editor;
 const { PanelBody, IconButton, RangeControl } = wp.components;
 const { withState } = wp.compose;
-//apiFetch = wp.apiFetch;
 
 registerBlockType( 'gutenberg-project/portfolio', {
     title: 'Portfolio Block',
@@ -35,7 +34,10 @@ registerBlockType( 'gutenberg-project/portfolio', {
 
     edit( props ) {
 
-        if( ! props.attributes.portfolio ) {
+        var propsPortfolio = props.attributes.portfolio;
+        var propsAttr = props.attributes;
+
+        if( ! propsPortfolio ) {
             wp.apiFetch({
                 url: 'http://localhost/wordpress/wp-json/wp/v2/portfolio/?per_page=100'
             }).then( portfolio => {
@@ -45,11 +47,11 @@ registerBlockType( 'gutenberg-project/portfolio', {
             } )
         }
 
-        if( ! props.attributes.portfolio ) {
+        if( ! propsPortfolio ) {
             return 'Loading...';
         }
 
-        if( props.attributes.portfolio && props.attributes.portfolio.length === 0 ) {
+        if( propsPortfolio && propsPortfolio.length === 0 ) {
             return 'No portfolio found... please add some';
         }
 
@@ -74,14 +76,14 @@ registerBlockType( 'gutenberg-project/portfolio', {
                     <RangeControl 
                     
                         label={ 'Number of posts per page' }
-                        value={ props.attributes.postPerPage }
+                        value={ propsAttr.postPerPage }
                         onChange={ onChangeNumberOfPostPerPage }
                         initialPosition={ 3 }
                         min={ 3 }
                         max={ 30 }
                         step={ 3 }
                     
-                    />  
+                    />
 
                 </PanelBody>
 
@@ -93,22 +95,9 @@ registerBlockType( 'gutenberg-project/portfolio', {
                 <RichText   key = "editable"
                             tagName = "p"
                             placeholder = "Add Portfolio Title"
-                            value = { props.attributes.portfolioBlockTitle }
+                            value = { propsAttr.portfolioBlockTitle }
                             onChange = { onChangePortfolioBlockTitle }                    
                 />
-
-                <div>
-                    
-                        {
-                            props.attributes.portfolio.map( portfolio => {
-                                return (
-                                    console.log(portfolio.featured_media)
-                                );
-                            } )
-                        }
-                    
-                </div>
-
             </div>
 
         ]);

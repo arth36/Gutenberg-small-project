@@ -11,18 +11,18 @@ add_action( 'after_setup_theme', 'gutenberg_theme_setup' );
 function gutenberg_custom_portfolio_posttype(){
 
     $labels = array(
-        'name'                    => 'Portfolio',
-        'singular_name'           => 'Portfolio',
-        'add_new'                 => 'Add Item',
-        'all_items'               => 'All Items',
-        'add_new_item'            => 'Add item',
-        'edit_item'               => 'Edit Item',
-        'new_item'                => 'New Item',
-        'view_item'               => 'View Item',       
-        'search_item'             => 'Search Item',
-        'not_found'               => 'No Items Found',
-        'not_found_in_trash'      => 'No Items Found In Trash',
-        'parent_item_colon'       => 'Parent Item',
+        'name'                    =>    __('Portfolio','gutenberg_project'),
+        'singular_name'           =>    __('Portfolio','gutenberg_project'),
+        'add_new'                 =>    __('Add Item','gutenberg_project'),
+        'all_items'               =>    __('All Items','gutenberg_project'),
+        'add_new_item'            =>    __('Add item','gutenberg_project'),
+        'edit_item'               =>    __('Edit Item','gutenberg_project'),
+        'new_item'                =>    __('New Item','gutenberg_project'),
+        'view_item'               =>    __('View Item','gutenberg_project'),       
+        'search_item'             =>    __('Search Item','gutenberg_project'),
+        'not_found'               =>    __('No Items Found','gutenberg_project'),
+        'not_found_in_trash'      =>    __('No Items Found In Trash','gutenberg_project'),
+        'parent_item_colon'       =>    __('Parent Item','gutenberg_project'),
     );
 
     $args = array(
