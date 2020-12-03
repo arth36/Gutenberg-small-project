@@ -51,7 +51,7 @@ function gutenberg_custom_portfolio_posttype(){
         'exclude_from_search'       => false,
     );
 
-    register_post_type( 'portfolio', $args );
+    register_post_type( 'portfolio', $args );   
 
 }
 

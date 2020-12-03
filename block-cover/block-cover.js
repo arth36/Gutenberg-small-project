@@ -25,6 +25,11 @@ registerBlockType( 'gutenberg-project/cover', {
         coverTitle: {
             type: 'string',
             source: 'html',
+            selector: 'h1',
+        },
+        coverDescription: {
+            type: 'string',
+            source: 'html',
             selector: 'p',
         },
     },
@@ -37,6 +42,7 @@ registerBlockType( 'gutenberg-project/cover', {
 
             coverImage,
             coverTitle,
+            coverDescription,
             
         } = attributes;
         
@@ -48,6 +54,10 @@ registerBlockType( 'gutenberg-project/cover', {
 
         function onChangeCoverTitle(newCoverTitle){
             setAttributes( { coverTitle: newCoverTitle } );
+        }
+
+        function onChangeCoverDescription(newCoverDescription){
+            setAttributes( { coverDescription: newCoverDescription } );
         }
         
         return ([
@@ -73,18 +83,23 @@ registerBlockType( 'gutenberg-project/cover', {
                 </PanelBody>
             </InspectorControls>,
 
-            <div class="banner" style = { { background: `url("${ coverImage }")` } }>
-                <div class="banner-container">
+            <div>
                 <RichText   key = "editable"
-                            tagName = "p"
+                            tagName = "h1"
                             className = "cover-title"
                             placeholder = "Add Cover Title"
                             value = { coverTitle }
-                            onChange = { onChangeCoverTitle }
-                            
+                            onChange = { onChangeCoverTitle }                            
                 />
-                </div>
-            </div>
+
+                <RichText   key = "editable"
+                            tagName = "p"
+                            className = "cover-description"
+                            placeholder = "Add Cover Description"
+                            value = { coverDescription }
+                            onChange = { onChangeCoverDescription }                            
+                />
+            </div>    
         ]);
     },
 
@@ -94,16 +109,33 @@ registerBlockType( 'gutenberg-project/cover', {
 
             coverImage,
             coverTitle,
+            coverDescription,
             
         } = attributes;
 
         return (
-            <div class="banner" style = { { background: `url("${ coverImage }")` } }>
-                <div class="banner-container">
-                    <img />
-                    <h1 className="cover-title">{ coverTitle }</h1>
+            
+
+
+            <div class="banner-outer">
+                <div class="banner-slider container">
+                    <div class="slideDiv">
+                        <div class="slide">
+                            <img class="banner_img" src={ coverImage } />
+                            <div class="banner-content">
+                                
+                                <h1>{ coverTitle }</h1>
+                                
+                                <div  class="container-wrapper">
+                                    <p class="banner-disc">{ coverDescription }</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
         );
     },
 });
