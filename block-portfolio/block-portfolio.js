@@ -43,7 +43,7 @@ registerBlockType( 'gutenberg-project/portfolio', {
 
         if( ! propsPortfolio ) {
             wp.apiFetch({
-                url: 'http://localhost/wordpress/wp-json/wp/v2/portfolio/?per_page=100'
+                url: 'http://localhost/wordpress/wp-json/wp/v2/portfolio'
             }).then( portfolio => {
                 props.setAttributes({
                     portfolio: portfolio,
